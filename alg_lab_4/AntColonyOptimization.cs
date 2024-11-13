@@ -4,8 +4,8 @@ using System.Linq;
 
 class AntColonyOptimization
 {
-    const int N = 100; // Кількість міст
-    public const int M = 30;  // Кількість мурах
+    const int N = 100;          // cities count
+    public const int M = 30;    // ants count
     public const int MaxIterations = 1000;
     const double Alpha = 2.0;
     const double Beta = 4.0;
@@ -16,9 +16,6 @@ class AntColonyOptimization
     static double[,] distances = new double[N, N];
     static double[,] pheromones = new double[N, N];
     
-
-
-    // Генерація випадкової матриці відстаней
     public static void GenerateDistanceMatrix()
     {
         for (int i = 0; i < N; i++)
@@ -30,7 +27,6 @@ class AntColonyOptimization
         }
     }
 
-    // Ініціалізація феромонів
     public static void InitializePheromones()
     {
         for (int i = 0; i < N; i++)
@@ -42,7 +38,6 @@ class AntColonyOptimization
         }
     }
 
-    // Жадібний алгоритм для знаходження початкового Lmin
     public static double FindGreedySolution()
     {
         List<int> tour = new List<int> { 0 };
@@ -58,7 +53,6 @@ class AntColonyOptimization
         return CalculateTourLength(tour);
     }
 
-    // Побудова маршруту мурахи
     public static List<int> ConstructSolution()
     {
         List<int> tour = new List<int> { random.Next(N) };
@@ -71,7 +65,6 @@ class AntColonyOptimization
         return tour;
     }
 
-    // Вибір наступного міста
     static int SelectNextCity(List<int> tour, int currentCity)
     {
         double[] probabilities = new double[N];
@@ -97,7 +90,6 @@ class AntColonyOptimization
         return -1;
     }
 
-    // Розрахунок довжини маршруту
     public static double CalculateTourLength(List<int> tour)
     {
         double length = 0;
@@ -105,11 +97,10 @@ class AntColonyOptimization
         {
             length += distances[tour[i], tour[i + 1]];
         }
-        length += distances[tour[N - 1], tour[0]]; // Повернення до початкового міста
+        length += distances[tour[N - 1], tour[0]];  // returns to start city 
         return length;
     }
 
-    // Оновлення феромонів
     public static void UpdatePheromones(List<(double length, List<int> tour)> tours)
     {
         for (int i = 0; i < N; i++)
@@ -131,7 +122,6 @@ class AntColonyOptimization
         }
     }
 
-    // Візуалізація графіка (простий вивід у консоль)
     public static void PlotGraph(List<double> qualityOverIterations)
     {
         Console.WriteLine("Quality over iterations:");
